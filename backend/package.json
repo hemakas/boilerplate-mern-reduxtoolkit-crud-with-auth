@@ -2,7 +2,7 @@
   "name": "mern-reduxtoolkit-auth",
   "version": "1.0.0",
   "description": "can be used as a boilerplate with the tech stack mern and reduxtoolkit ",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js"
