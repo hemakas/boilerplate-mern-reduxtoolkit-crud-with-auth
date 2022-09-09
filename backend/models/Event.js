@@ -8,17 +8,17 @@ const eventSchema = mongoose.Schema(
         required: true,
         ref: 'User',
     },
-    // googleId: {
-    //     type: String,
-    //     required: true
-    // }, 
+    googleId: {
+        type: String,
+        required: true
+    }, 
     title: {
       type: String,
       required: [true, 'Please add a title'],
     },
     description: {
       type: String,
-      required: [true, 'Please add an email'],
+      required: [true, 'Please add a description'],
       unique: true,
     },
     start: {
