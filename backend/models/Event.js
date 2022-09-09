@@ -4,13 +4,13 @@ const eventSchema = mongoose.Schema(
   {
     // foreign key
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User',
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
     },
     googleId: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     }, 
     title: {
       type: String,
@@ -22,12 +22,12 @@ const eventSchema = mongoose.Schema(
       unique: true,
     },
     start: {
-        type: Date,
-        required: [true, 'Please add an start date'],
+      type: Date,
+      default: new Date()
     },
     end: {
-        type: Date,
-        required: [true, 'Please add end date'],
+      type: Date,
+      default: new Date()
     },
     
   }, { timestamps: true })
