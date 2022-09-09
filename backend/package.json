@@ -1,0 +1,35 @@
+{
+  "name": "mern-reduxtoolkit-auth",
+  "version": "1.0.0",
+  "description": "can be used as a boilerplate with the tech stack mern and reduxtoolkit ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemakas/boilerplate-mern-reduxtoolkit-crud-with-auth.git"
+  },
+  "keywords": [
+    "MERN",
+    "stack",
+    "reduxtoolkit",
+    "ReactJs"
+  ],
+  "author": "Hemaka Ranasinghe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hemakas/boilerplate-mern-reduxtoolkit-crud-with-auth/issues"
+  },
+  "homepage": "https://github.com/hemakas/boilerplate-mern-reduxtoolkit-crud-with-auth#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "mongoose": "^6.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
