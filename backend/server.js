@@ -19,8 +19,16 @@ const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+
+// routes ==========================
+
 // all events routes
 app.use('/api/events', require('./routes/eventRoutes'));
+
+// all user routes
+app.use('/api/users', require('./routes/userRoutes'));
+
+// routes ==========================
 
 // custom error handler: overrides the default express error handler
 app.use(errorHandler)
