@@ -65,6 +65,11 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 })
 
+// get logged in user data
+const getMe = asyncHandler(async (req, res) => {
+  res.status(200).json(req.user)
+})
+
 // Generate JSON web token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -74,8 +79,9 @@ const generateToken = (id) => {
   
 
 module.exports = {
-    registerUser,
-    loginUser
+  registerUser,
+  loginUser,
+  getMe
 }
   
   
