@@ -3,17 +3,28 @@ const router = express.Router()
 const {
   registerUser,
   loginUser,
+  allUsers,
   getMe
 } = require('../controllers/userController')
+
+// auth middleware
 const { protect } = require('../middleware/authMiddleware')
 
-// register user
-router.post('/', registerUser)
+// localhost:5000/api/users/register user
+router.route('/')
+  .post(registerUser)
+
+// localhost:5000/api/users/ get all users
+// routes protected with auth middleware
+router.route('/')
+  .get(protect, allUsers)
 
 // login user
-router.post('/login', loginUser)
+router.route('/login')
+  .post(loginUser)
 
-// logged in user
-router.get('/me', protect, getMe)
+// logged in user details
+router.route('/me')
+  .get(protect, getMe)
 
 module.exports = router
