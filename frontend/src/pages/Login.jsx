@@ -43,12 +43,8 @@ function Login() {
     }))
   }
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  const onSubmit = (e) => {
+    e.preventDefault()
 
     const userData = {
       email,
@@ -56,14 +52,12 @@ function Login() {
     }
 
     dispatch(login(userData))
-
-    setValidated(true);
-  };
+  }
 
   if (isLoading) {
     return <Spinner />
   }
-  
+
   return (
     <>
       <Alert variant="success" className='mt-3'>
@@ -78,7 +72,7 @@ function Login() {
             <Card.Header className="text-center"><h3 className='center'><FaSignInAlt /> Login</h3></Card.Header>
               
               <Card.Body>
-                <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                <Form noValidate validated={validated} onSubmit={onSubmit }>
                   
                   {/* email */}
                   <Row className="mb-3">

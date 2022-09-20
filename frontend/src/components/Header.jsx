@@ -15,7 +15,6 @@ export const Header = () => {
     navigate('/')
   }
 
-  
   return (
     <>
       <Navbar bg="primary" variant="dark" expand="lg">
@@ -27,8 +26,17 @@ export const Header = () => {
           
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-              <Nav.Link href="/login"><FaSignInAlt /> Login</Nav.Link>
-              <Nav.Link href="/register"><FaUser /> Register</Nav.Link>
+              
+            {user ? (
+                <button className='btn' onClick={onLogout}>
+                  <FaSignOutAlt /> Logout
+                </button>
+            ) : (
+              <>
+                <Nav.Link href="/login"><FaSignInAlt /> Login</Nav.Link>
+                <Nav.Link href="/register"><FaUser /> Register</Nav.Link>
+              </>
+            )}
             </Nav>
           </Navbar.Collapse>
 
