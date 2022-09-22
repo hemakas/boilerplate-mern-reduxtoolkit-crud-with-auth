@@ -3,6 +3,12 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Header from './components/Header'
+
+// toastify
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+// bootstrap styles
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -18,7 +24,7 @@ function App() {
           </Routes>
         </div>
       </Router>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
     </>
   );
 }

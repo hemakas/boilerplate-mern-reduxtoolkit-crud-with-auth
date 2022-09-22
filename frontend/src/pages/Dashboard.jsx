@@ -1,7 +1,8 @@
-import Alert from 'react-bootstrap/Alert'
+import { Alert, Button, Col, Form, InputGroup, Row, Card, Container } from 'react-bootstrap';
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'  
+import { useSelector, useDispatch } from 'react-redux'
+import EventForm from '../components/EventForm'
 
 function Dashboard() {
   const navigate = useNavigate()
@@ -17,9 +18,22 @@ function Dashboard() {
 
   return (
     <>
-      <Alert variant="success" className='mt-3'>
+      <Alert variant="success">
         <Alert.Heading>Dashboard</Alert.Heading>
       </Alert>
+
+      <Container className='mb-3'>
+        <Row>
+          <Col></Col> 
+          
+          <Col xs={6}>
+            <EventForm />
+          </Col>
+
+          <Col></Col> 
+        </Row>
+      </Container>
+
     </>
   )
 }
