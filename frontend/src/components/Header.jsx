@@ -28,9 +28,13 @@ export const Header = () => {
             <Nav className="ml-auto">
               
             {user ? (
-                <button className='btn' onClick={onLogout}>
-                  <FaSignOutAlt /> Logout
-                </button>
+                <>
+                  <Nav.Link href="/events"><FaSignInAlt /> Events</Nav.Link>
+                  
+                  <button className='btn' onClick={onLogout}>
+                    <FaSignOutAlt /> Logout
+                  </button>
+                </>
             ) : (
               <>
                 <Nav.Link href="/login"><FaSignInAlt /> Login</Nav.Link>

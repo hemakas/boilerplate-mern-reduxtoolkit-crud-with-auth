@@ -2,7 +2,6 @@ import { Alert, Button, Col, Form, InputGroup, Row, Card, Container } from 'reac
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import EventForm from '../components/EventForm'
 
 function Dashboard() {
   const navigate = useNavigate()
@@ -27,7 +26,6 @@ function Dashboard() {
           <Col></Col> 
           
           <Col xs={6}>
-            <EventForm />
           </Col>
 
           <Col></Col> 
