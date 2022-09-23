@@ -25,7 +25,7 @@ function EventCreateForm() {
     const { title, description, startDate, endDate, assignee } = formData 
 
     const { user, isLoading, isError, isSuccess, message } = useSelector(
-        (state) => state.auth
+      (state) => state.auth
     )
 
     const onChange = (e) => {

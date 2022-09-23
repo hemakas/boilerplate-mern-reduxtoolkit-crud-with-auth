@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import {Form, Button, Row} from 'react-bootstrap'
-import { register, reset } from '../../features/auth/authSlice'
+import { Form, Button, Row } from 'react-bootstrap'
 import Spinner from '../../components/Spinner'
+import { register, reset } from '../../features/auth/authSlice'
 
 function RegisterForm() {
     const navigate = useNavigate()
@@ -46,23 +46,36 @@ function RegisterForm() {
           ...prevState,
           [e.target.name]: e.target.value,
         }))
-      }
+    }
 
     // form submit
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (password !== password2) {
+        // form validation rules
+        if (!firstName || firstName === '' && !lastName || lastName === '')
+            toast.error('Please enter either first name or last name')
+        if (!email || email === '')
+            toast.error('Please enter email')
+        if (!password || password === '')
+            toast.error('Please enter password')
+        else if (password.length < 6)
+            toast.error('Password should be of minimum 6 characters')
+        if (!password2 || password2 === '')
+            toast.error('Please retype password')
+        else if (password !== password2)
             toast.error('Passwords do not match')
-        } else {
+        else {
             let name = firstName + ' ' + lastName
             
             const userData = {
               name,
               email,
               password,
+              level
             }
-      
+            
+            // register user
             dispatch(register(userData))
         }
     }
@@ -71,7 +84,6 @@ function RegisterForm() {
     if (isLoading) {
         return <Spinner />
     }
-
 
     return (
         <>
