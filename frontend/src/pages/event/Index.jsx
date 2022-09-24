@@ -2,19 +2,42 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Alert, Col, Row, Container, Card, Button } from 'react-bootstrap'
-// import EventCreateForm from '../../components/event/EventCreateForm'
+import { Alert, Col, Row, Container, Card, Button, Table } from 'react-bootstrap'
+import { getEvents, reset } from '../../features/events/eventSlice'
+
+import EventItem from '../../components/event/EventItem'
+import Spinner from '../../components/Spinner'
 
 function Index() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const { user } = useSelector((state) => state.auth)
+  const { events, isLoading, isError, message } = useSelector(
+    (state) => state.events
+  )
 
   // redirect if user not found
   useEffect(() => {
+    if (isError) {
+      console.log(message)
+    }
+    
     if (!user) {
       navigate('/login')
     }
-  }, [user, navigate])
+
+    dispatch(getEvents())
+
+    return () => {
+      dispatch(reset())
+    }
+
+  }, [user, navigate, isError, message, dispatch])
+
+  if (isLoading) {
+    return <Spinner />
+  }
 
   return (
     <>
@@ -30,20 +53,29 @@ function Index() {
       </Alert>
 
       <Container className='mb-3'>
-        <Row>
-          <Col></Col> 
-          
-          <Col xs={6}>
-            <Card>
-              <Card.Body>
-                {/* <EventCreateForm /> */}
-                Events list
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col></Col> 
-        </Row>
+        {events.length > 0 ? (
+          <Table striped>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Assignees</th>
+                <th>GoogleId</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((event, index) => (
+                <EventItem key={index} event={event} />
+              ))}
+            </tbody>
+          </Table>
+        ) : (
+          <h5>You have not set any events</h5>
+        )}
       </Container>      
     </>
   )

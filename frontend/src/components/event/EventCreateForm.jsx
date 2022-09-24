@@ -9,18 +9,17 @@ import DatePicker from 'react-datepicker'
 function EventCreateForm() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    
+
     const [validated, setValidated] = useState(false);
-    
+
     // form data
     const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        startDate: '',
-        endDate: '',
-        assignee: '',
+      title: '',
+      description: '',
+      startDate: '',
+      endDate: '',
+      assignee: '',
     })
-
 
     const { title, description, startDate, endDate, assignee } = formData 
 

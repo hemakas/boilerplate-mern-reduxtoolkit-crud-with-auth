@@ -15,9 +15,23 @@ const createEvent = async (eventData, token) => {
   return response.data
 }
 
-const eventService = {
-    createEvent
+// Get user events
+const getEvents = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   }
-  
-  export default eventService
+
+  const response = await axios.get(API_URL, config)
+
+  return response.data
+}
+
+const eventService = {
+  createEvent,
+  getEvents
+}
+
+export default eventService
 

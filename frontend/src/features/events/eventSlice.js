@@ -28,6 +28,22 @@ export const createEvent = createAsyncThunk(
   }
 )
 
+// get events
+export const getEvents = createAsyncThunk('events/getAll', async (_, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token
+    return await eventService.getEvents(token)
+  } catch (error) {
+    const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
 export const eventSlice = createSlice({
   name: 'event',
   initialState,
@@ -36,6 +52,8 @@ export const eventSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      
+      // create events cases
       .addCase(createEvent.pending, (state) => {
         state.isLoading = true
       })
@@ -45,6 +63,21 @@ export const eventSlice = createSlice({
         state.events.push(action.payload)
       })
       .addCase(createEvent.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+
+      // get events cases
+      .addCase(getEvents.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getEvents.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.events = action.payload
+      })
+      .addCase(getEvents.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

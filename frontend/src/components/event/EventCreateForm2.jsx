@@ -33,11 +33,11 @@ function EventCreateForm2() {
         if (isError) {
           toast.error(message)
         }
-    
+
         if (isSuccess) {
           navigate('/events')
         }
-    
+
         dispatch(reset())
     }, [events, isError, isSuccess, message, navigate, dispatch])
 
