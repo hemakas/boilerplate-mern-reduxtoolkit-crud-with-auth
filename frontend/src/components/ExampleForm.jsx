@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Form, Button, Row, Col} from 'react-bootstrap'
 import moment from 'moment'
 import { useDispatch } from 'react-redux'
-import { createEvent } from '../features/events/eventSlice'
+import { createEvent } from '../features/event/eventSlice'
 
 function ExampleForm() {
     const dispatch = useDispatch()

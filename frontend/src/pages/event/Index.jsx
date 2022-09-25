@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Alert, Col, Row, Container, Card, Button, Table } from 'react-bootstrap'
-import { getEvents, reset } from '../../features/events/eventSlice'
+import { getEvents, reset } from '../../features/event/eventSlice'
 
 import EventItem from '../../components/event/EventItem'
 import Spinner from '../../components/Spinner'

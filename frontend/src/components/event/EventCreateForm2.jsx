@@ -6,7 +6,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import Spinner from '../../components/Spinner'
 import DatePicker from 'react-datepicker'
 
-import { createEvent, reset } from '../../features/events/eventSlice'
+import { createEvent, reset } from '../../features/event/eventSlice'
 
 function EventCreateForm2() {
     const navigate = useNavigate()
