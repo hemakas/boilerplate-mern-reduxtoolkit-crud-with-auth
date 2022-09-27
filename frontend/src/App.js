@@ -7,7 +7,7 @@ import Header from './components/Header'
 // events
 import Index from './pages/event/Index'
 import Create from './pages/event/Create'
-
+import IndexUser from './pages/event/IndexUser'
 
 // toastify
 import { ToastContainer } from 'react-toastify'
@@ -31,6 +31,7 @@ function App() {
 
             {/* event routes */}
             <Route path='/events' element={<Index />} />
+            <Route path='/events/userEvents' element={<IndexUser />} />
             <Route path='/event/create' element={<Create />} />
           </Routes>
 

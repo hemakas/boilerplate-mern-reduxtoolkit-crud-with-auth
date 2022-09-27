@@ -12,12 +12,10 @@ function EventItem({ event }) {
   const { singleUser } = useSelector((state) => state.auth)
 
   useEffect(() => {
-    // get all users from authSlice
+    // get users by id
     dispatch(getUserById(event.userId))
 
   }, [dispatch])
-
-  console.log(singleUser)
 
   return (
     <tr>

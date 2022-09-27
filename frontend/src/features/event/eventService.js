@@ -15,7 +15,7 @@ const createEvent = async (eventData, token) => {
   return response.data
 }
 
-// Get user events
+// Get all events
 const getEvents = async (token) => {
   const config = {
     headers: {
@@ -28,7 +28,20 @@ const getEvents = async (token) => {
   return response.data
 }
 
-// Delete user event
+// Get events by user id
+const getUserEvents = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const response = await axios.get(API_URL + id, config)
+
+  return response.data
+}
+
+// Delete event
 const deleteEvent = async (eventId, token) => {
   const config = {
     headers: {
@@ -44,7 +57,8 @@ const deleteEvent = async (eventId, token) => {
 const eventService = {
   createEvent,
   getEvents,
-  deleteEvent
+  deleteEvent,
+  getUserEvents
 }
 
 export default eventService

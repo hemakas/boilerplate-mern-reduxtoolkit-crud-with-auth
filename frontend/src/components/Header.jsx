@@ -1,4 +1,4 @@
-import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
+import { FaSignInAlt, FaSignOutAlt, FaUser, FaUserClock } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux'
@@ -30,6 +30,8 @@ export const Header = () => {
             {user ? (
                 <>
                   <Nav.Link href="/events"><FaSignInAlt /> Events</Nav.Link>
+
+                  <Nav.Link href="/events/userEvents"><FaUserClock /> User Events</Nav.Link>
                   
                   <button className='btn' onClick={onLogout}>
                     <FaSignOutAlt /> Logout
