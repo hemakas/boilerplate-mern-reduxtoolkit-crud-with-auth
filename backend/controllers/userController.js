@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
+const mongoose = require('mongoose')
 
 const User = require('../models/User')
 
@@ -83,13 +84,25 @@ const generateToken = (id) => {
     expiresIn: '30d',
   })
 }
-  
+
+// get user by id
+const getUserById = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ message: "User doesn't exist" });
+  }
+
+  const user = await User.find({ _id: id });
+  res.status(200).json(user)
+})
+
 
 module.exports = {
   registerUser,
   loginUser,
   allUsers,
-  getMe
+  getMe,
+  getUserById
 }
   
   

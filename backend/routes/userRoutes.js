@@ -4,7 +4,8 @@ const {
   registerUser,
   loginUser,
   allUsers,
-  getMe
+  getMe,
+  getUserById
 } = require('../controllers/userController')
 
 // auth middleware
@@ -26,5 +27,9 @@ router.route('/login')
 // logged in user details
 router.route('/me')
   .get(protect, getMe)
+
+// logged in user details
+router.route('/:id')
+  .get(protect, getUserById)
 
 module.exports = router

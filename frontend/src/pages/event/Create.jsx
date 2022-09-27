@@ -4,14 +4,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Alert, Col, Row, Container, Card } from 'react-bootstrap'
 import EventCreateForm from '../../components/event/EventCreateForm'
-import EventCreateForm2 from '../../components/event/EventCreateForm2'
 
 function Create() {
   const navigate = useNavigate()
   const { user } = useSelector((state) => state.auth)
 
-  // redirect if user not found
   useEffect(() => {
+    // redirect if user not found
     if (!user) {
       navigate('/login')
     }
@@ -30,7 +29,7 @@ function Create() {
           <Col xs={6}>
             <Card>
               <Card.Body>
-                <EventCreateForm2 />
+                <EventCreateForm />
               </Card.Body>
             </Card>
           </Col>

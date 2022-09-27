@@ -42,11 +42,25 @@ const getUsers = async (token) => {
   return response.data
 }
 
+// get a single user by id
+const getUserById = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const response = await axios.get(API_URL + id, config)
+
+  return response.data
+}
+
 const authService = {
   register,
   logout,
   login,
-  getUsers
+  getUsers,
+  getUserById
 }
 
 export default authService

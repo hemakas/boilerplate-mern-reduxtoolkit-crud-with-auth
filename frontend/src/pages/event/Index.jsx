@@ -12,21 +12,25 @@ function Index() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  // get athentic user 
   const { user } = useSelector((state) => state.auth)
+
   const { events, isLoading, isError, message } = useSelector(
     (state) => state.events
   )
 
-  // redirect if user not found
   useEffect(() => {
+    // log error messages
     if (isError) {
       console.log(message)
     }
-    
+
+    // redirect if user not found
     if (!user) {
       navigate('/login')
     }
 
+    // get all events from eventSlice
     dispatch(getEvents())
 
     return () => {
