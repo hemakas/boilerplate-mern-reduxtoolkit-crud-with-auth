@@ -1,19 +1,27 @@
-import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { deleteEvent } from '../../features/event/eventSlice'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
 import { FaTrash } from 'react-icons/fa'
 
 function UserEventItem({ userEvent }) {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   // get athentic user 
-  const { user } = useSelector((state) => state.auth)
+  const { user, isError, message } = useSelector((state) => state.auth)
 
   useEffect(() => {
+    if (isError) {
+      console.log(message)
+    }
 
-  }, [dispatch])
+    // redirect if user not found
+    if (!user) {
+      navigate('/login')
+    }
+  }, [dispatch, navigate, isError, message, dispatch])
 
   return (
     <tr>
@@ -22,8 +30,7 @@ function UserEventItem({ userEvent }) {
       <td>{ userEvent.description }</td>
       <td>{ moment(new Date(userEvent.start)).format('yyyy-MM-D') }</td>
       <td>{ moment(new Date(userEvent.end)).format('yyyy-MM-D') }</td>
-      {/* <td>{ user.name }</td> */}
-      <td>{ userEvent.userId}</td>
+      <td>{ user.name }</td>
       <td>{ userEvent.googleId }</td>
       <td><button className='close' onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button></td>
     </tr>

@@ -1,21 +1,38 @@
-import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
-import { deleteEvent } from '../../features/event/eventSlice'
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
-import { getUserById } from '../../features/auth/authSlice'
-import { useSelector } from 'react-redux'
+import { deleteEvent } from '../../features/event/eventSlice'
+import { getUserById, reset } from '../../features/auth/authSlice'
+import Spinner from '../../components/Spinner'
 
 function EventItem({ event }) {
   const dispatch = useDispatch()
 
   // fetch users from authSlice state > users array
-  const { singleUser } = useSelector((state) => state.auth)
+  const { eventUsers, isLoading, isError, message } = useSelector((state) => state.auth)
+
+  // const { eventUsers, isLoading, isError, message } = useSelector((state) => ({ ...state.auth }))
+
+  console.log(eventUsers)
 
   useEffect(() => {
+    // log error messages
+    if (isError) {
+      console.log(message)
+    }
+
     // get users by id
     dispatch(getUserById(event.userId))
 
-  }, [dispatch])
+    return () => {
+      dispatch(reset())
+    }
+
+  }, [dispatch, isError])
+
+  if (isLoading) {
+    return <Spinner />
+  }
 
   return (
     <tr>
@@ -24,7 +41,13 @@ function EventItem({ event }) {
       <td>{ event.description }</td>
       <td>{ moment(new Date(event.start)).format('yyyy-MM-D') }</td>
       <td>{ moment(new Date(event.end)).format('yyyy-MM-D') }</td>
-      <td>{ singleUser.name }</td>
+      <td>{ 
+          eventUsers.map((eventUser) => {
+            if(eventUser._id == event.userId) {
+              return eventUser.name
+            }
+          })
+      }</td>
       <td>{ event.googleId }</td>
       <td><button className='close' onClick={() => dispatch(deleteEvent(event._id))}>X</button></td>
     </tr>

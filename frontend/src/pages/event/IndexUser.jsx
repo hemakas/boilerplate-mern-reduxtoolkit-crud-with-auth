@@ -16,8 +16,8 @@ function IndexUser() {
   const { user } = useSelector((state) => state.auth)
 
   // events by user id
-  const { eventsUsers, isLoading, isError, message } = useSelector(
-    (state) => state.eventsUsers
+  const { userEvents, isLoading, isError, message } = useSelector(
+    (state) => state.userEvents
   )
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function IndexUser() {
     }
 
     // get events by user id
-    dispatch(getUserEvents('631be10f631168d48e2a5c0c'))
+    dispatch(getUserEvents(user._id))
 
     return () => {
       dispatch(reset())
@@ -58,7 +58,7 @@ function IndexUser() {
       </Alert>
 
       <Container className='mb-3'>
-        {eventsUsers.length > 0 ? (
+        {userEvents.length > 0 ? (
           <Table striped>
             <thead>
               <tr>
@@ -73,8 +73,8 @@ function IndexUser() {
               </tr>
             </thead>
             <tbody>
-              {eventsUsers.map((eventsUser, index) => (
-                <UserEventItem key={index} eventsUser={eventsUser} />
+              {userEvents.map((userEvent, index) => (
+                <UserEventItem key={index} userEvent={userEvent} />
               ))}
             </tbody>
           </Table>
