@@ -30,7 +30,7 @@ function UserEventItem({ userEvent }) {
       <td>{ userEvent.description }</td>
       <td>{ moment(new Date(userEvent.start)).format('yyyy-MM-D') }</td>
       <td>{ moment(new Date(userEvent.end)).format('yyyy-MM-D') }</td>
-      <td>{ user.name }</td>
+      <td>{ userEvent.name }</td>
       <td>{ userEvent.googleId }</td>
       <td><button className='close' onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button></td>
     </tr>

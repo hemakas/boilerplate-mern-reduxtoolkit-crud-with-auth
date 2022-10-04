@@ -1,35 +1,21 @@
 const express = require('express')
 const router = express.Router()
-const {
-  registerUser,
-  loginUser,
-  allUsers,
-  getMe,
-  getUserById
-} = require('../controllers/userController')
-
-// auth middleware
+const userController =  require('../controllers/userController')
 const { protect } = require('../middleware/authMiddleware')
 
-// localhost:5000/api/users/register user
 router.route('/')
-  .post(registerUser)
+  .get(protect, userController.getAllUsers)
+  .post(protect, userController.registerUser)
+  .patch(protect, userController.updateUser)
+  .delete(protect, userController.deleteUser)
 
-// localhost:5000/api/users/ get all users
-// routes protected with auth middleware
-router.route('/')
-  .get(protect, allUsers)
-
-// login user
 router.route('/login')
-  .post(loginUser)
+  .post(userController.loginUser)
 
-// logged in user details
 router.route('/me')
-  .get(protect, getMe)
+  .get(protect, userController.getMe)
 
-// logged in user details
 router.route('/:id')
-  .get(protect, getUserById)
+  .get(protect, userController.getUserById)
 
 module.exports = router

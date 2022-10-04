@@ -1,100 +1,120 @@
+const Event = require('../models/Event')
+const User = require('../models/User')
 const asyncHandler = require('express-async-handler')
 
-const Event = require('../models/Event')
+// fetch all events ----------------------------
+const getAllEvents = asyncHandler(async (req, res) => {
+    const events = await Event.find().lean()
 
-// fetch all events
-const allEvents = asyncHandler(async (req, res) => {
-    const events = await Event.find()
-    res.status(200).json(events)
+    // if no events found
+    if (!events?.length) {
+        return res.status(400).json({ message: 'No events found' })
+    }
+
+    const eventsWithUser = await Promise.all(events.map(async (event) => {
+        const user = await User.findById(event.userId).lean().exec()
+        return { ...event, name: user.name }
+    }))
+
+    res.json(eventsWithUser)
 })
 
-// fetch events belongs to a user
+// fetch events belongs to a user ----------------------------
 const getEventsByUser = asyncHandler(async (req, res) => {
-    const events = await Event.find({ userId: req.user.id })
-    res.status(200).json(events)
+    
+    const events = await Event.find({ userId: req.user.id }).lean()
+
+    // if no notes found
+    if (!events?.length) {
+        return res.status(400).json({ message: 'No events found for this user' })
+    }
+
+    const eventsWithUser = await Promise.all(events.map(async (event) => {
+        const user = await User.findById(event.userId).lean().exec()
+        return { ...event, name: user.name }
+    }))
+
+    res.json(eventsWithUser)
 })
 
-// create event
+// create event ----------------------------
 const createEvent = asyncHandler(async (req, res) => {
-    if (!req.body.title || !req.body.description || !req.body.start || !req.body.end) {
-        res.status(400)
-        throw new Error('Please add title, description, start and end details')
+    const { userId, googleId, title, description, start, end } = req.body
+    
+    if (!title || !description || !start || !end) {
+        return res.status(400).json({ message: 'All fields are required' })
     }
   
-    const event = await Event.create({
-        userId: req.user.id,
-        googleId: req.body.googleId,
-        title: req.body.title,
-        description: req.body.description,
-        start: req.body.start,
-        end: req.body.end,
-    })
+    const event = await Event.create({ userId, googleId, title, description, start, end })
   
-    res.status(200).json(event)
+    if (event) {
+        return res.status(201).json({ message: 'New event created' })
+    } else {
+        return res.status(400).json({ message: 'Invalid event data received' })
+    }
 })
 
-// update event
+// update event ----------------------------
 const updateEvent = asyncHandler(async (req, res) => {
-    const event = await Event.findById(req.params.id)
+    const { userId, title, description, start, end } = req.body
 
-    // check event
+    // Confirm data
+    if (!title || !description || !start || !end) {
+        return res.status(400).json({ message: 'All fields are required' })
+    }
+
+    // Confirm event exists to update
+    const event = await Event.findById(userId).exec()
+
     if (!event) {
-        res.status(400)
-        throw new Error('Event not found')
+        return res.status(400).json({ message: 'Event not found' })
     }
 
-    // check user logged in
-    if (!req.user.id) {
-        res.status(401)
-        throw new Error('User not found')
-    }
+    // authorize to update event
+    // if (event.userId.toString() !== req.user._id) {
+    //     return res.status(401).json({ message: 'User not authorized to update this event' })
+    // }
 
-    // make sure the logged in user matches the event's user
-    if (event.userId.toString() !== req.user.id) {
-        res.status(401)
-        throw new Error('User not authorized')
-    }
+    event.title = title
+    event.description = description
+    event.start = start
+    event.end = end
 
-    // update event by id
-    const updatedEvent = await Event.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-    })
+    const updatedEvent = await event.save()
 
-    // return updated event
-    res.status(200).json(updatedEvent)
+    res.json(`${updatedEvent.title} event updated`)
+
 })
 
-// delete event
+// delete event ----------------------------
 const deleteEvent = asyncHandler(async (req, res) => {
-    const event = await Event.findById(req.params.id)
+    const { id } = req.body
 
-    // check event
+    // Confirm data
+    if (!id) {
+        return res.status(400).json({ message: 'Event ID required' })
+    }
+
+    // Confirm event exists to delete 
+    const event = await Event.findById(id).exec()
+
     if (!event) {
-      res.status(400)
-      throw new Error('event not found')
+        return res.status(400).json({ message: 'Event not found' })
     }
-  
-    // check user logged in
-    if (!req.user.id) {
-      res.status(401)
-      throw new Error('User not found')
-    }
-  
+
     // make sure the logged in user matches the event's user
     if (event.userId.toString() !== req.user.id) {
-      res.status(401)
-      throw new Error('User not authorized')
+        res.status(401).json({ message: 'User not authorized' })
     }
-  
-    // delete event
-    await event.remove()
-  
-    // return deleted event's id
-    res.status(200).json({ id: req.params.id })
+
+    const result = await event.deleteOne()
+
+    res.json({ message: `Event '${result.title}' deleted successfully` })
+
 })
 
 module.exports = {
-    allEvents,
+    getAllEvents,
     getEventsByUser,
     createEvent,
     updateEvent,
