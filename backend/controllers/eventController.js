@@ -19,9 +19,28 @@ const getAllEvents = asyncHandler(async (req, res) => {
     res.json(eventsWithUser)
 })
 
+// get a single event by id ----------------------------
+const getEventById = asyncHandler(async (req, res) => {
+    const { id } = req.params
+
+    // check if id is valid
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        return res.status(404).json({ message: 'Invalid Id' })
+    }
+
+    const event = await Event.find({ _id: id }).lean()
+
+    // if no event found
+    if (!event?.length) {
+        return res.status(400).json({ message: 'No event found for this ID' })
+    }
+    
+    res.json(event)
+})
+
 // fetch events belongs to a user ----------------------------
 const getEventsByUser = asyncHandler(async (req, res) => {
-    
+
     const events = await Event.find({ userId: req.user.id }).lean()
 
     // if no notes found
@@ -40,13 +59,13 @@ const getEventsByUser = asyncHandler(async (req, res) => {
 // create event ----------------------------
 const createEvent = asyncHandler(async (req, res) => {
     const { userId, googleId, title, description, start, end } = req.body
-    
+
     if (!title || !description || !start || !end) {
         return res.status(400).json({ message: 'All fields are required' })
     }
-  
+
     const event = await Event.create({ userId, googleId, title, description, start, end })
-  
+
     if (event) {
         return res.status(201).json({ message: 'New event created' })
     } else {
@@ -56,33 +75,29 @@ const createEvent = asyncHandler(async (req, res) => {
 
 // update event ----------------------------
 const updateEvent = asyncHandler(async (req, res) => {
-    const { userId, title, description, start, end } = req.body
-
-    // Confirm data
-    if (!title || !description || !start || !end) {
-        return res.status(400).json({ message: 'All fields are required' })
-    }
-
-    // Confirm event exists to update
-    const event = await Event.findById(userId).exec()
+    const event = await Event.findById(req.params.id)
 
     if (!event) {
         return res.status(400).json({ message: 'Event not found' })
     }
 
-    // authorize to update event
-    // if (event.userId.toString() !== req.user._id) {
-    //     return res.status(401).json({ message: 'User not authorized to update this event' })
-    // }
+    const { userId, title, description, start, end } = req.body
 
-    event.title = title
-    event.description = description
-    event.start = start
-    event.end = end
+    const updateEvent = await Event.findByIdAndUpdate(
+        req.params.id,
+        { 
+            userId,
+            title,
+            description,
+            start,
+            end,
+        },
+        {
+            new: true
+        }
+    ) 
 
-    const updatedEvent = await event.save()
-
-    res.json(`${updatedEvent.title} event updated`)
+    res.json(`Event with Id "${updateEvent._id}" updated`)
 
 })
 
@@ -115,6 +130,7 @@ const deleteEvent = asyncHandler(async (req, res) => {
 
 module.exports = {
     getAllEvents,
+    getEventById,
     getEventsByUser,
     createEvent,
     updateEvent,

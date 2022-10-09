@@ -3,6 +3,7 @@ import eventService from './eventService'
 
 const initialState = {
   events: [],
+  event: [],
   userEvents: [],
   isError: false,
   isSuccess: false,
@@ -26,11 +27,43 @@ export const createEvent = createAsyncThunk('events/create', async (eventData, t
   }
 })
 
+// update event
+export const updateEvent = createAsyncThunk('events/updateEvent', async (eventData, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token
+    return await eventService.updateEvent(eventData, token)
+  } catch (error) {
+    const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
 // get all events
 export const getEvents = createAsyncThunk('events/getAll', async (_, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token
     return await eventService.getEvents(token)
+  } catch (error) {
+    const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+// get event by event id
+export const getEventById = createAsyncThunk('events/getEventById', async (id, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token
+    return await eventService.getEventById(id, token)
   } catch (error) {
     const message =
       (error.response &&
@@ -84,7 +117,7 @@ export const eventSlice = createSlice({
   extraReducers: (builder) => {
     builder
       
-      // create events cases
+      // create event cases
       .addCase(createEvent.pending, (state) => {
         state.isLoading = true
       })
@@ -99,6 +132,21 @@ export const eventSlice = createSlice({
         state.message = action.payload
       })
 
+      // update event cases
+      .addCase(updateEvent.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateEvent.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.events = state.events.map((item) => item._id === action.payload._id ? action.payload : item)
+      })
+      .addCase(updateEvent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
       // get events cases
       .addCase(getEvents.pending, (state) => {
         state.isLoading = true
@@ -109,6 +157,21 @@ export const eventSlice = createSlice({
         state.events = action.payload
       })
       .addCase(getEvents.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+
+      // get events by event id cases
+      .addCase(getEventById.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getEventById.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.event = action.payload
+      })
+      .addCase(getEventById.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

@@ -7,49 +7,44 @@ import Spinner from '../Spinner'
 import { getAllUsers } from '../../features/auth/authSlice'
 import moment from 'moment'
 
-import { createEvent, reset } from '../../features/event/eventSlice'
+import { updateEvent, reset } from '../../features/event/eventSlice'
 
-function EventCreateForm() {
+function EventUpdateForm({ event }) {
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        start: moment(new Date()).format('yyyy-MM-D'),
-        end: moment(new Date()).format('yyyy-MM-D'),
+        start: '',
+        end: '',
         userId: '',
     })
-
+    
     const { title, description, start, end, userId } = formData
 
-    // fetch events from eventSlice state > events array
     const { events, isLoading, isError, isSuccess, message } = useSelector((state) => state.events)
 
-    // get athentic user 
     const { user } = useSelector((state) => state.auth)
-    // fetch users from authSlice state > users array
+
     const { users } = useSelector((state) => state.auth)
 
-    // behave according to the state (show errors/ navigate/ dispatch reset)
     useEffect(() => {
         if (isError) {
           toast.error(message)
         }
 
-        // redirect if user not found
         if (!user) {
             navigate('/login')
         }
     
-        // get all users from authSlice
         dispatch(getAllUsers())
 
-        if (isSuccess) {
-          navigate('/events')
+        return () => {
+            dispatch(reset())
         }
 
-        dispatch(reset())
     }, [events, isError, isSuccess, message, navigate, dispatch])
 
     // on change events
@@ -85,7 +80,7 @@ function EventCreateForm() {
             }
 
             // save event
-            dispatch(createEvent(eventData))
+            dispatch(updateEvent(eventData))
         }
     }
 
@@ -111,30 +106,13 @@ function EventCreateForm() {
                     {/* start date */}
                     <Col>
                         <FloatingLabel label="Start Date" className='mb-3'>
-                            {/* <DatePicker 
-                                selected={start || new Date()} 
-                                onChange={date => setstart(date)} 
-                                isClearable
-                                showYearDropdown
-                                scrollableMonthYearDropdown
-                                dateFormat={'dd/MM/yyyy'}
-                            /> */}
                             <Form.Control type='date' name="start" onChange={onChange} value={start} ></Form.Control>
                         </FloatingLabel>
                     </Col>
 
                     {/* end date */}
                     <Col>
-                        <FloatingLabel label="End Date" className='mb-3'> 
-                            {/* <DatePicker 
-                                name="end"
-                                selected={end || new Date()} 
-                                onChange={onChange} 
-                                isClearable
-                                showYearDropdown
-                                scrollableMonthYearDropdown
-                                dateFormat={'dd/MM/yyyy'}
-                            /> */}
+                        <FloatingLabel label="End Date" className='mb-3'>
                             <Form.Control type='date' name="end" onChange={onChange} value={end} ></Form.Control>
                         </FloatingLabel>
                     </Col>
@@ -160,4 +138,4 @@ function EventCreateForm() {
 
 }
 
-export default EventCreateForm
+export default EventUpdateForm

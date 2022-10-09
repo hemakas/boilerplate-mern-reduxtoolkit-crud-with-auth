@@ -47,11 +47,11 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout()
 })
 
-// get users
-export const getUsers = createAsyncThunk('users/getAll', async (_, thunkAPI) => {
+// get all users
+export const getAllUsers = createAsyncThunk('users/getAll', async (_, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token
-    return await authService.getUsers(token)
+    return await authService.getAllUsers(token)
   } catch (error) {
     const message =
       (error.response &&
@@ -130,16 +130,16 @@ export const authSlice = createSlice({
         state.user = null
       })
 
-      // get users cases
-      .addCase(getUsers.pending, (state) => {
+      // get all users cases
+      .addCase(getAllUsers.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(getUsers.fulfilled, (state, action) => {
+      .addCase(getAllUsers.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
         state.users = action.payload
       })
-      .addCase(getUsers.rejected, (state, action) => {
+      .addCase(getAllUsers.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

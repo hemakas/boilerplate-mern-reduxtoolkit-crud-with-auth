@@ -9,7 +9,7 @@ function EventItem({ event, index }) {
   const dispatch = useDispatch()
 
   // fetch users from authSlice state > users array
-  const { eventUsers, isLoading, isError, message } = useSelector((state) => state.auth)
+  const { isLoading, isError, message } = useSelector((state) => state.auth)
 
   useEffect(() => {
     // log error messages

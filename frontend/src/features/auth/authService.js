@@ -30,7 +30,7 @@ const logout = () => {
 }
 
 // Get users
-const getUsers = async (token) => {
+const getAllUsers = async (token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ const authService = {
   register,
   logout,
   login,
-  getUsers,
+  getAllUsers,
   getUserById
 }
 

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { deleteEvent } from '../../features/event/eventSlice'
+import { deleteEvent, updateEvent } from '../../features/event/eventSlice'
 import moment from 'moment'
-import { FaTrash } from 'react-icons/fa'
+import { FaTrash, FaEdit } from 'react-icons/fa'
 
 function UserEventItem({ userEvent }) {
   const navigate = useNavigate()
@@ -21,7 +21,10 @@ function UserEventItem({ userEvent }) {
     if (!user) {
       navigate('/login')
     }
+
   }, [dispatch, navigate, isError, message, dispatch])
+
+  // const handleEdit = () => navigate(`/event/update/${userEvent._id}`)
 
   return (
     <tr>
@@ -32,7 +35,13 @@ function UserEventItem({ userEvent }) {
       <td>{ moment(new Date(userEvent.end)).format('yyyy-MM-D') }</td>
       <td>{ userEvent.name }</td>
       <td>{ userEvent.googleId }</td>
-      <td><button className='close' onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button></td>
+
+      {/* delete button */}
+      <td><button onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button></td>
+
+      {/* edit button */}
+      {/* <td><button href="event/update" onClick={() => dispatch(updateEvent(userEvent._id))}><FaEdit /></button></td> */}
+      <td><button onClick={() => navigate(`/event/update/${userEvent._id}`)}><FaEdit /></button></td>
     </tr>
   )
 }

@@ -14,12 +14,11 @@ const eventSchema = mongoose.Schema(
     }, 
     title: {
       type: String,
-      required: [true, 'Please add a title'],
+      default: 'N/A',
     },
     description: {
       type: String,
-      required: [true, 'Please add a description'],
-      unique: true,
+      default: 'N/A'
     },
     start: {
       type: Date,
