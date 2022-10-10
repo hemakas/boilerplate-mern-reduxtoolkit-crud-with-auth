@@ -42,15 +42,21 @@ const registerUser = asyncHandler(async (req, res) => {
   })
 
   if (user) {
-    res.status(201).json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id),
-    })
+    return res.status(201).json({ message: 'New user created' })
   } else {
-    res.status(400).json({ message: 'Invalid user data' })
+    return res.status(400).json({ message: 'Invalid user data received' })
   }
+
+  // if (user) {
+  //   res.status(201).json({
+  //     _id: user.id,
+  //     name: user.name,
+  //     email: user.email,
+  //     token: generateToken(user._id),
+  //   })
+  // } else {
+  //   res.status(400).json({ message: 'Invalid user data' })
+  // }
 })
 
 // update user ----------------------------

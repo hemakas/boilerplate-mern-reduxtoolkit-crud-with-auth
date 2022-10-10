@@ -31,9 +31,7 @@ const updateEvent = async (eventData, token) => {
     userId: eventData.userId,
     googleId: eventData.googleId
   }
-
   const response = await axios.put(API_URL + eventData._id, updateData, config)
-
   return response.data
 }
 
@@ -44,9 +42,7 @@ const getEvents = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-
   const response = await axios.get(API_URL, config)
-
   return response.data
 }
 
@@ -57,9 +53,7 @@ const getEventById = async (id, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-
   const response = await axios.get(API_URL + id, config)
-
   return response.data
 }
 
@@ -70,9 +64,7 @@ const getUserEvents = async (id, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-
   const response = await axios.get(API_URL + 'user/' + id, config)
-
   return response.data
 }
 
@@ -83,9 +75,7 @@ const deleteEvent = async (eventId, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-
   const response = await axios.delete(API_URL + eventId, config)
-
   return response.data
 }
 

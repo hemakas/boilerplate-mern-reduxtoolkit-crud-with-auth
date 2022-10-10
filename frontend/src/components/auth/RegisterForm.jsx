@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { Form, Button, Row } from 'react-bootstrap'
+import { Form, Button, Row, FloatingLabel } from 'react-bootstrap'
 import Spinner from '../../components/Spinner'
 import { register, reset } from '../../features/auth/authSlice'
 
@@ -21,20 +21,16 @@ function RegisterForm() {
 
     const { firstName, lastName, email, password, password2, level } = formData
 
-    // select from state
-    const { user, isLoading, isError, isSuccess, message } = useSelector
-    (
-        (state) => state.auth
-    )
+    const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth)
 
-    // behave according to the state (show errors/ navigate/ dispatch reset)
     useEffect(() => {
         if (isError) {
           toast.error(message)
         }
     
-        if (isSuccess || user) {
-          navigate('/')
+        if (isSuccess) {
+            toast.success("User registered successfully")
+            navigate('/')
         }
     
         dispatch(reset())
@@ -89,56 +85,37 @@ function RegisterForm() {
         <>
             <Form>
                 {/* first name */}
-                <Row className="mb-3">
-                    <Form.Group>
-                        <Form.Label>First name</Form.Label>
-                        <Form.Control type="text" name="firstName" id="firstName" vaue={firstName} onChange={onChange} required placeholder="John"/>
-                    </Form.Group>
-                </Row>
+                <FloatingLabel label="First Name" className='mb-3'>
+                    <Form.Control type="text" name="firstName" id="firstName" vaue={firstName} onChange={onChange} required placeholder="John"/>
+                </FloatingLabel>
 
                 {/* last name */}
-                <Row className="mb-3">
-                    <Form.Group>
-                        <Form.Label>Last name</Form.Label>
-                        <Form.Control type="text" name="lastName" id="lastName" vaue={lastName} onChange={onChange} required placeholder="Doe"/>
-                    </Form.Group>
-                </Row>
+                <FloatingLabel label="Last Name" className='mb-3'>
+                    <Form.Control type="text" name="lastName" id="lastName" vaue={lastName} onChange={onChange} required placeholder="Doe"/>
+                </FloatingLabel>
 
                 {/* email */}
-                <Row className="mb-3">
-                    <Form.Group>
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" name="email" id="email" vaue={email} onChange={onChange} required placeholder="john@example.com"/>
-                    </Form.Group>
-                </Row>
+                <FloatingLabel label="Email" className='mb-3'>
+                    <Form.Control type="email" name="email" id="email" vaue={email} onChange={onChange} required placeholder="john@example.com"/>
+                </FloatingLabel>
 
                 {/* password */}
-                <Row className="mb-3">
-                    <Form.Group>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" name="password" id="password" vaue={password} onChange={onChange} required />
-                    </Form.Group>
-                </Row>
+                <FloatingLabel label="Password" className='mb-3'>
+                    <Form.Control type="password" name="password" id="password" vaue={password} onChange={onChange} required />
+                </FloatingLabel>
 
                 {/* password2 */}
-                <Row className="mb-3">
-                    <Form.Group>
-                        <Form.Label>Retype Password</Form.Label>
-                        <Form.Control type="password" name="password2" id="password2" vaue={password2} onChange={onChange} required />
-                    </Form.Group>
-                </Row>
+                <FloatingLabel label="Retype password" className='mb-3'>
+                    <Form.Control type="password" name="password2" id="password2" vaue={password2} onChange={onChange} required />
+                </FloatingLabel>
 
-                {/* level */}
-                <Row className="mb-3">
-                    <Form.Group>
-                        <Form.Label>Level</Form.Label>
-                        <Form.Select onChange={onChange} value={level} >
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                        </Form.Select>
-                    </Form.Group>
-                </Row>
+                {/* Role */}
+                <FloatingLabel label="Role" className='mb-3'>
+                    <Form.Select name="level" onChange={onChange} value={level} aria-label="Floating label select example">
+                        <option value='1'>Admin</option>
+                        <option value='2'>User</option>
+                    </Form.Select>
+                </FloatingLabel>
 
                 {/* submit button */}
                 <Form.Group>

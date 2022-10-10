@@ -1,4 +1,4 @@
-import { FaSignInAlt, FaSignOutAlt, FaUser, FaUserClock } from 'react-icons/fa'
+import { FaSignInAlt, FaSignOutAlt, FaUser, FaUserClock, FaAddressBook, FaCalendar } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux'
@@ -25,13 +25,15 @@ export const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
+            <Nav className="ml-auto justify-content-end">
               
             {user ? (
                 <>
-                  <Nav.Link href="/events"><FaSignInAlt /> Events</Nav.Link>
+                  <Nav.Link href="/events"><FaCalendar /> Events</Nav.Link>
 
                   <Nav.Link href="/events/userEvents"><FaUserClock /> User Events</Nav.Link>
+
+                  <Nav.Link href="/register"><FaAddressBook /> Create User</Nav.Link>
                   
                   <button className='btn' onClick={onLogout}>
                     <FaSignOutAlt /> Logout
@@ -39,8 +41,7 @@ export const Header = () => {
                 </>
             ) : (
               <>
-                <Nav.Link href="/login"><FaSignInAlt /> Login</Nav.Link>
-                <Nav.Link href="/register"><FaUser /> Register</Nav.Link>
+
               </>
             )}
             </Nav>

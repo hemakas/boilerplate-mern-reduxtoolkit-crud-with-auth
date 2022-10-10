@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Alert, Col, Row, Container, Card, Button, Table } from 'react-bootstrap'
+import { Alert, Col, Row, Container, Button, Table } from 'react-bootstrap'
 import { getUserEvents, reset } from '../../features/event/eventSlice'
 
 import UserEventItem from '../../components/event/UserEventItem'
@@ -16,9 +16,7 @@ function IndexUser() {
   const { user } = useSelector((state) => state.auth)
 
   // events by user id
-  const { userEvents, isLoading, isError, message } = useSelector(
-    (state) => state.userEvents
-  )
+  const { userEvents, isLoading, isError, message } = useSelector((state) => state.event)
 
   useEffect(() => {
     // log error messages
@@ -49,7 +47,7 @@ function IndexUser() {
       <Alert variant="success">
         <Row>
           <Col>
-            <Alert.Heading>All Events</Alert.Heading>
+            <Alert.Heading>All {user.name}'s Events</Alert.Heading>
           </Col>
           <Col>
             <Button href="/event/create">Create</Button>

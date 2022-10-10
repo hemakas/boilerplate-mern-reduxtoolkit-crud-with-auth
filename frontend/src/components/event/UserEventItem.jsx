@@ -36,12 +36,11 @@ function UserEventItem({ userEvent }) {
       <td>{ userEvent.name }</td>
       <td>{ userEvent.googleId }</td>
 
+      {/* edit button */}
+      <td><button onClick={() => navigate(`/event/update/${userEvent._id}`)}><FaEdit /></button></td>
+
       {/* delete button */}
       <td><button onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button></td>
-
-      {/* edit button */}
-      {/* <td><button href="event/update" onClick={() => dispatch(updateEvent(userEvent._id))}><FaEdit /></button></td> */}
-      <td><button onClick={() => navigate(`/event/update/${userEvent._id}`)}><FaEdit /></button></td>
     </tr>
   )
 }

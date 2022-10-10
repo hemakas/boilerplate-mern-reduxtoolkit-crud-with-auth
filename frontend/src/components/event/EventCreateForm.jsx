@@ -23,36 +23,32 @@ function EventCreateForm() {
 
     const { title, description, start, end, userId } = formData
 
-    // fetch events from eventSlice state > events array
-    const { events, isLoading, isError, isSuccess, message } = useSelector((state) => state.events)
+    const { isLoading, isError, isSuccess, message } = useSelector((state) => state.event)
 
-    // get athentic user 
     const { user } = useSelector((state) => state.auth)
-    // fetch users from authSlice state > users array
+
     const { users } = useSelector((state) => state.auth)
 
-    // behave according to the state (show errors/ navigate/ dispatch reset)
     useEffect(() => {
         if (isError) {
           toast.error(message)
         }
 
-        // redirect if user not found
         if (!user) {
             navigate('/login')
         }
     
-        // get all users from authSlice
         dispatch(getAllUsers())
 
         if (isSuccess) {
-          navigate('/events')
+            toast.success("Event created successfully");
+            navigate('/events')
         }
 
         dispatch(reset())
-    }, [events, isError, isSuccess, message, navigate, dispatch])
+    }, [isError, isSuccess, message, navigate, dispatch])
 
-    // on change events
+    // on change form elements
     const onChange = (e) => {
         setFormData((prevState) => ({
           ...prevState,
@@ -111,14 +107,6 @@ function EventCreateForm() {
                     {/* start date */}
                     <Col>
                         <FloatingLabel label="Start Date" className='mb-3'>
-                            {/* <DatePicker 
-                                selected={start || new Date()} 
-                                onChange={date => setstart(date)} 
-                                isClearable
-                                showYearDropdown
-                                scrollableMonthYearDropdown
-                                dateFormat={'dd/MM/yyyy'}
-                            /> */}
                             <Form.Control type='date' name="start" onChange={onChange} value={start} ></Form.Control>
                         </FloatingLabel>
                     </Col>
@@ -126,24 +114,14 @@ function EventCreateForm() {
                     {/* end date */}
                     <Col>
                         <FloatingLabel label="End Date" className='mb-3'> 
-                            {/* <DatePicker 
-                                name="end"
-                                selected={end || new Date()} 
-                                onChange={onChange} 
-                                isClearable
-                                showYearDropdown
-                                scrollableMonthYearDropdown
-                                dateFormat={'dd/MM/yyyy'}
-                            /> */}
                             <Form.Control type='date' name="end" onChange={onChange} value={end} ></Form.Control>
                         </FloatingLabel>
                     </Col>
                 </Row>
 
-                {/* userIds */}
-                <FloatingLabel label="userId" className='mb-3'>
+                {/* assignee */}
+                <FloatingLabel label="Assignee" className='mb-3'>
                     <Form.Select name="userId" onChange={onChange} value={userId} aria-label="Floating label select example">
-                        <option>Select userId</option>
                         {users.map((user, index) => (
                             <option value={user._id} key={index}>{user.name}</option>
                         ))}

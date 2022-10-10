@@ -103,7 +103,7 @@ const updateEvent = asyncHandler(async (req, res) => {
 
 // delete event ----------------------------
 const deleteEvent = asyncHandler(async (req, res) => {
-    const { id } = req.body
+    const { id } = req.params.id
 
     // Confirm data
     if (!id) {
@@ -122,7 +122,7 @@ const deleteEvent = asyncHandler(async (req, res) => {
         res.status(401).json({ message: 'User not authorized' })
     }
 
-    const result = await event.deleteOne()
+    const result = await event.remove()
 
     res.json({ message: `Event '${result.title}' deleted successfully` })
 

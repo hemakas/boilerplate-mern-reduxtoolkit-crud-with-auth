@@ -6,7 +6,7 @@ function Register() {
   return (
     <>
       <Alert variant="success">
-        <Alert.Heading>Register</Alert.Heading>
+        <Alert.Heading>Create New User</Alert.Heading>
       </Alert>
 
       <Container className='mb-3'>

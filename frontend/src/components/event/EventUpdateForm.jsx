@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Form, Button, Row, Col, FloatingLabel } from 'react-bootstrap'
 import Spinner from '../Spinner'
@@ -9,26 +9,30 @@ import moment from 'moment'
 
 import { updateEvent, reset } from '../../features/event/eventSlice'
 
-function EventUpdateForm({ event }) {
+const initialState = {
+    title: '',
+    description: '',
+    start: moment(new Date()).format('yyyy-MM-D'),
+    end: moment(new Date()).format('yyyy-MM-D'),
+    userId: '',
+}
+
+function EventUpdateForm() {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        start: '',
-        end: '',
-        userId: '',
-    })
-    
-    const { title, description, start, end, userId } = formData
+    const [formData, setFormData] = useState(initialState)
 
-    const { events, isLoading, isError, isSuccess, message } = useSelector((state) => state.events)
+    const { userEvents, isLoading, isError, isSuccess, message } = useSelector((state) => state.event )
 
     const { user } = useSelector((state) => state.auth)
 
     const { users } = useSelector((state) => state.auth)
+
+    const { title, description, start, end, userId } = formData
+
+    const { id } = useParams();
 
     useEffect(() => {
         if (isError) {
@@ -41,11 +45,17 @@ function EventUpdateForm({ event }) {
     
         dispatch(getAllUsers())
 
+        if (id) {
+            const singleEvent = userEvents.find((event) => event._id === id);
+            console.log(singleEvent);
+            setFormData({ ...singleEvent });
+          }
+
         return () => {
-            dispatch(reset())
+            // dispatch(reset())
         }
 
-    }, [events, isError, isSuccess, message, navigate, dispatch])
+    }, [id, isError, isSuccess, message, navigate, dispatch])
 
     // on change events
     const onChange = (e) => {
@@ -84,6 +94,17 @@ function EventUpdateForm({ event }) {
         }
     }
 
+    // form clear
+    const handleClear = () => {
+        setFormData({
+            title: '',
+            description: '',
+            start: moment(new Date()).format('yyyy-MM-D'),
+            end: moment(new Date()).format('yyyy-MM-D'),
+            userId: '',
+        })
+    }
+
     // show spinner while loading
     if (isLoading) {
         return <Spinner />
@@ -118,10 +139,9 @@ function EventUpdateForm({ event }) {
                     </Col>
                 </Row>
 
-                {/* userIds */}
-                <FloatingLabel label="userId" className='mb-3'>
+                {/* assignee */}
+                <FloatingLabel label="Assignee" className='mb-3'>
                     <Form.Select name="userId" onChange={onChange} value={userId} aria-label="Floating label select example">
-                        <option>Select userId</option>
                         {users.map((user, index) => (
                             <option value={user._id} key={index}>{user.name}</option>
                         ))}
@@ -130,7 +150,12 @@ function EventUpdateForm({ event }) {
 
                 {/* submit button */}
                 <Form.Group>
-                    <Button type='submit' onClick={handleSubmit} variant='primary'>Submit</Button>
+                    <Button type='submit' onClick={handleSubmit} variant='primary'>Update</Button>
+                </Form.Group>
+
+                {/* clear button */}
+                <Form.Group>
+                    <Button type='button' onClick={handleClear} variant='danger'>Clear</Button>
                 </Form.Group>
             </Form>
         </>

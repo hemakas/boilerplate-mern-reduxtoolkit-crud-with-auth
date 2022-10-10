@@ -16,9 +16,7 @@ function Index() {
   const { user } = useSelector((state) => state.auth)
 
   // all events
-  const { events, isLoading, isError, message } = useSelector(
-    (state) => state.events
-  )
+  const { events, isLoading, isError, message } = useSelector((state) => state.event)
 
   useEffect(() => {
     // log error messages
@@ -49,11 +47,11 @@ function Index() {
       <Alert variant="success">
         <Row>
             <Col>
-                <Alert.Heading>All Events</Alert.Heading>
+              <Alert.Heading>All Events</Alert.Heading>
             </Col>
-            <Col>
-                <Button href="/event/create">Create</Button>
-            </Col>  
+            <Col className="justify-content-end">
+              <Button href="/event/create" >Create</Button>
+            </Col>
         </Row>
       </Alert>
 

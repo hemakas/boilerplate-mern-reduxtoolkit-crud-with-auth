@@ -17,20 +17,16 @@ function LoginForm() {
 
     const { email, password } = formData
 
-    // select from state
-    const { user, isLoading, isError, isSuccess, message } = useSelector
-    (
-        (state) => state.auth
-    )
+    const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth)
 
-    // behave according to the state (show errors/ navigate/ dispatch reset)
     useEffect(() => {
         if (isError) {
           toast.error(message)
         }
     
-        if (isSuccess || user) {
-          navigate('/')
+        if (isSuccess) {
+            toast.success("Logged in successfully")
+            navigate('/events/userEvents')
         }
     
         dispatch(reset())
