@@ -1,22 +1,23 @@
 import React from 'react'
 import { Alert, Col, Row, Container, Card } from 'react-bootstrap'
-import UserRegisterForm from '../components/user/UserRegisterForm'
+import UserUpdateForm from '../../components/user/UserUpdateForm'
 
-function Register() {
+function UserUpdate() {
+
   return (
     <>
       <Alert variant="success">
-        <Alert.Heading>Create New User</Alert.Heading>
+        <Alert.Heading>Update User</Alert.Heading>
       </Alert>
 
       <Container className='mb-3'>
         <Row>
           <Col></Col> 
-          
+
           <Col xs={6}>
             <Card>
               <Card.Body>
-                <UserRegisterForm />
+                <UserUpdateForm />
               </Card.Body>
             </Card>
           </Col>
@@ -28,4 +29,4 @@ function Register() {
   )
 }
 
-export default Register
+export default UserUpdate

@@ -42,12 +42,13 @@ function EventItem({ event, index }) {
       <td>{ moment(new Date(event.end)).format('yyyy-MM-D') }</td>
       <td>{ event.name }</td>
       <td>{ event.googleId }</td>
-      
-      {/* edit button */}
-      <td><button onClick={() => navigate(`/event/update/${event._id}`)}><FaEdit /></button></td>
-      
-      {/* delete button */}
-      <td><button className='close' onClick={() => dispatch(deleteEvent(event._id))}><FaTrash /></button></td>
+      <td>
+        {/* edit button */}
+        <button onClick={() => navigate(`/event/update/${event._id}`)}><FaEdit /></button>
+        
+        {/* delete button */}
+        <button className='close' onClick={() => dispatch(deleteEvent(event._id))}><FaTrash /></button>
+      </td>
     </tr>
   )
 }

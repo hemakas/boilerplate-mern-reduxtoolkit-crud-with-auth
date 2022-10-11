@@ -17,8 +17,12 @@ const userSchema = new Schema({
     },
     level: {
         type: Number,
-        default: 3
+        default: 2
     },
+    isActive: {
+        type: Boolean,
+        default: true
+    }
 
 }, { timestamps: true })
 

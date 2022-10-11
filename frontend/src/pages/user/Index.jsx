@@ -3,20 +3,18 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Alert, Col, Row, Container, Card, Button, Table } from 'react-bootstrap'
-import { getEvents, reset } from '../../features/event/eventSlice'
+import { getAllUsers, reset } from '../../features/auth/authSlice'
 
-import EventItem from '../../components/event/EventItem'
+import UserItem from '../../components/user/UserItem'
 import Spinner from '../../components/Spinner'
 
-function Index() {
+function UserIndex() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  // get athentic user 
   const { user } = useSelector((state) => state.auth)
 
-  // all events
-  const { events, isLoading, isError, message } = useSelector((state) => state.event)
+  const { users, isLoading, isError, message } = useSelector((state) => state.auth)
 
   useEffect(() => {
     // log error messages
@@ -30,7 +28,7 @@ function Index() {
     }
 
     // get all events from eventSlice
-    dispatch(getEvents())
+    dispatch(getAllUsers())
 
     return () => {
       dispatch(reset())
@@ -47,41 +45,39 @@ function Index() {
       <Alert variant="success">
         <Row>
             <Col>
-              <Alert.Heading>All Events</Alert.Heading>
+              <Alert.Heading>All Users</Alert.Heading>
             </Col>
             <Col className="justify-content-end">
-              {/* <Button href="/event/create" >Create</Button> */}
+              <Button href="/user/create" >Create</Button>
             </Col>
         </Row>
       </Alert>
 
       <Container className='mb-3'>
-        {events.length > 0 ? (
+        {users.length > 0 ? (
           <Table striped>
             <thead>
               <tr>
                 <th>#</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Assignees</th>
-                <th>GoogleId</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {events.map((event, index) => (
-                <EventItem key={index} event={event} />
+              {users.map((user, index) => (
+                <UserItem key={index} user={user} />
               ))}
             </tbody>
           </Table>
         ) : (
-          <h5>You have not set any events</h5>
+          <h5>No users found</h5>
         )}
       </Container>      
     </>
   )
 }
 
-export default Index
+export default UserIndex

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Form, Button, Row, FloatingLabel } from 'react-bootstrap'
-import Spinner from '../../components/Spinner'
+import Spinner from '../Spinner'
 import { register, reset } from '../../features/auth/authSlice'
 
 function RegisterForm() {
@@ -16,7 +16,7 @@ function RegisterForm() {
         email: '',
         password: '',
         password2: '',
-        level: ''
+        level: '2'
     })
 
     const { firstName, lastName, email, password, password2, level } = formData
@@ -68,7 +68,7 @@ function RegisterForm() {
               name,
               email,
               password,
-              level
+              level: Number(level)
             }
             
             // register user
@@ -119,7 +119,7 @@ function RegisterForm() {
 
                 {/* submit button */}
                 <Form.Group>
-                    <Button type='submit' onClick={handleSubmit} variant='primary'>Submit</Button>
+                    <Button type='submit' onClick={handleSubmit} variant='primary'>Register</Button>
                 </Form.Group>
             </Form>
         </>

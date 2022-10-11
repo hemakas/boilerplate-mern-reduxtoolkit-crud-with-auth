@@ -10,6 +10,11 @@ import Create from './pages/event/Create'
 import Update from './pages/event/Update'
 import IndexUser from './pages/event/IndexUser'
 
+// users
+import UserIndex from './pages/user/Index'
+import UserCreate from './pages/user/Create'
+import UserUpdate from './pages/user/Update'
+
 // toastify
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -35,6 +40,11 @@ function App() {
             <Route path='/events/userEvents' element={<IndexUser />} />
             <Route path='/event/create' element={<Create />} />
             <Route path='/event/update/:id' element={<Update />} />
+
+            {/* user routes */}
+            <Route path='/users' element={<UserIndex />} />
+            <Route path='/user/create' element={<UserCreate />} />
+            <Route path='/users/update/:id' element={<UserUpdate />} />
           </Routes>
 
         </div>

@@ -33,7 +33,7 @@ export const Header = () => {
 
                   <Nav.Link href="/events/userEvents"><FaUserClock /> User Events</Nav.Link>
 
-                  <Nav.Link href="/register"><FaAddressBook /> Create User</Nav.Link>
+                  <Nav.Link href="/users"><FaCalendar /> Users</Nav.Link>
                   
                   <button className='btn' onClick={onLogout}>
                     <FaSignOutAlt /> Logout

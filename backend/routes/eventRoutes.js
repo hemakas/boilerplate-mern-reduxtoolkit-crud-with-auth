@@ -16,4 +16,3 @@ router.route('/:id')
     .delete(protect, eventController.deleteEvent)
 
 module.exports = router
- 

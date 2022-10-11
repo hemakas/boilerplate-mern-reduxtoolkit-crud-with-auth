@@ -34,12 +34,13 @@ function UserEventItem({ userEvent }) {
       <td>{ moment(new Date(userEvent.start)).format('yyyy-MM-D') }</td>
       <td>{ moment(new Date(userEvent.end)).format('yyyy-MM-D') }</td>
       <td>{ userEvent.googleId }</td>
+      <td>
+        {/* edit button */}
+        <button onClick={() => navigate(`/event/update/${userEvent._id}`)}><FaEdit /></button>
 
-      {/* edit button */}
-      <td><button onClick={() => navigate(`/event/update/${userEvent._id}`)}><FaEdit /></button></td>
-
-      {/* delete button */}
-      <td><button onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button></td>
+        {/* delete button */}
+        <button onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button>
+      </td>
     </tr>
   )
 }

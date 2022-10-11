@@ -42,7 +42,7 @@ function EventCreateForm() {
 
         if (isSuccess) {
             toast.success("Event created successfully");
-            navigate('/events')
+            navigate('/events/userEvents')
         }
 
         dispatch(reset())

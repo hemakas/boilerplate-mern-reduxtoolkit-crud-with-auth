@@ -107,7 +107,7 @@ const deleteEvent = asyncHandler(async (req, res) => {
 
     const result = await event.remove()
 
-    res.json({ message: `Event '${result.title}' deleted successfully` })
+    res.status(200).json({ message: `Event '${result.title}' deleted successfully` })
 
 })
 

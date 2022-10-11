@@ -28,7 +28,7 @@ const eventSchema = mongoose.Schema(
       type: Date,
       default: new Date()
     },
-    completed: {
+    isCompleted: {
       type: Boolean,
       default: false
     }
