@@ -65,7 +65,6 @@ function IndexUser() {
                 <th>Description</th>
                 <th>Start Date</th>
                 <th>End Date</th>
-                <th>Assignees</th>
                 <th>GoogleId</th>
                 <th>Action</th>
               </tr>

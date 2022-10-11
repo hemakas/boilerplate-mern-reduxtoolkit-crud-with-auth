@@ -21,7 +21,7 @@ const getAllEvents = asyncHandler(async (req, res) => {
 
 // get a single event by id ----------------------------
 const getEventById = asyncHandler(async (req, res) => {
-    const { id } = req.params
+    const id = req.params.id
 
     // check if id is valid
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -41,19 +41,10 @@ const getEventById = asyncHandler(async (req, res) => {
 // fetch events belongs to a user ----------------------------
 const getEventsByUser = asyncHandler(async (req, res) => {
 
-    const events = await Event.find({ userId: req.user.id }).lean()
+    const events = await Event.find({ userId: req.user.id })
 
     // if no notes found
-    if (!events?.length) {
-        return res.status(400).json({ message: 'No events found for this user' })
-    }
-
-    const eventsWithUser = await Promise.all(events.map(async (event) => {
-        const user = await User.findById(event.userId).lean().exec()
-        return { ...event, name: user.name }
-    }))
-
-    res.json(eventsWithUser)
+    res.status(200).json(events)
 })
 
 // create event ----------------------------
@@ -103,15 +94,7 @@ const updateEvent = asyncHandler(async (req, res) => {
 
 // delete event ----------------------------
 const deleteEvent = asyncHandler(async (req, res) => {
-    const { id } = req.params.id
-
-    // Confirm data
-    if (!id) {
-        return res.status(400).json({ message: 'Event ID required' })
-    }
-
-    // Confirm event exists to delete 
-    const event = await Event.findById(id).exec()
+    const event = await Event.findById(req.params.id)
 
     if (!event) {
         return res.status(400).json({ message: 'Event not found' })

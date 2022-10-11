@@ -28,12 +28,11 @@ function UserEventItem({ userEvent }) {
 
   return (
     <tr>
-      <td>{ userEvent._id }</td>
+      <td>{ }</td>
       <td>{ userEvent.title }</td>
       <td>{ userEvent.description }</td>
       <td>{ moment(new Date(userEvent.start)).format('yyyy-MM-D') }</td>
       <td>{ moment(new Date(userEvent.end)).format('yyyy-MM-D') }</td>
-      <td>{ userEvent.name }</td>
       <td>{ userEvent.googleId }</td>
 
       {/* edit button */}
