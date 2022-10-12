@@ -5,9 +5,6 @@ import { store } from './app/store';
 import App from './App';
 import './index.css';
 
-// react datepicker
-import "react-datepicker/dist/react-datepicker.css"
-
 const container = document.getElementById('root');
 const root = createRoot(container);
 
