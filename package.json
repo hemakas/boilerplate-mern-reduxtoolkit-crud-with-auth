@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "can be used as a boilerplate with the tech stack mern and reduxtoolkit ",
   "main": "server.js",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
