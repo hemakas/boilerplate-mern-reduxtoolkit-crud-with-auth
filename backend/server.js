@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const dotenv = require('dotenv').config()
 const colors = require('colors');
@@ -28,7 +29,17 @@ app.use('/api/events', require('./routes/eventRoutes'));
 // all user routes
 app.use('/api/users', require('./routes/userRoutes'));
 
-// routes ==========================
+// deployments ==========================
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/build')))
+
+    app.get('*', (req, res) => 
+        res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html'))
+    )
+} else {
+    app.get('/', (req, res) => res.send('Please set to production'))
+}
+
 
 // custom error handler: overrides the default express error handler
 app.use(errorHandler)

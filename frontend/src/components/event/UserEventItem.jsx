@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { deleteEvent, updateEvent } from '../../features/event/eventSlice'
+import { reset } from '../../features/auth/authSlice'
 import moment from 'moment'
 import { FaTrash, FaEdit } from 'react-icons/fa'
 
@@ -22,9 +23,11 @@ function UserEventItem({ userEvent }) {
       navigate('/login')
     }
 
-  }, [dispatch, navigate, isError, message, dispatch])
+    return () => {
+      dispatch(reset())
+    }
 
-  // const handleEdit = () => navigate(`/event/update/${userEvent._id}`)
+  }, [dispatch, navigate, isError, message, dispatch])
 
   return (
     <tr>
@@ -39,7 +42,7 @@ function UserEventItem({ userEvent }) {
         <button onClick={() => navigate(`/event/update/${userEvent._id}`)}><FaEdit /></button>
 
         {/* delete button */}
-        <button onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button>
+        <button className='close' onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button>
       </td>
     </tr>
   )
