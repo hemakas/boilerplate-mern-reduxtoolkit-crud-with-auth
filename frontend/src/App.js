@@ -26,9 +26,8 @@ function App() {
   return (
     <>
       <Router>
-        <div className='container'>
+        <div>
           <Header />
-          
           <Routes>
             {/* auth routes */}
             <Route path='/' element={<Dashboard />} />
@@ -39,14 +38,13 @@ function App() {
             <Route path='/events' element={<Index />} />
             <Route path='/events/userEvents' element={<IndexUser />} />
             <Route path='/event/create' element={<Create />} />
-            <Route path='/event/update/:id' element={<Update />} />
+            <Route exact path='/event/update/:id' element={<Update />} />
 
             {/* user routes */}
             <Route path='/users' element={<UserIndex />} />
             <Route path='/user/create' element={<UserCreate />} />
             <Route path='/users/update/:id' element={<UserUpdate />} />
           </Routes>
-
         </div>
       </Router>
       <ToastContainer />

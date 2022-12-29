@@ -4,9 +4,9 @@ const userController =  require('../controllers/userController')
 const { protect } = require('../middleware/authMiddleware')
 
 router.route('/')
-  .get(protect, userController.getAllUsers)
+  .get(userController.getAllUsers)
   .post(protect, userController.registerUser)
-  .patch(protect, userController.updateUser)
+  .put(protect, userController.updateUser)
 
 router.route('/login')
   .post(userController.loginUser)

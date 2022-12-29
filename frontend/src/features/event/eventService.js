@@ -54,6 +54,9 @@ const getEventById = async (id, token) => {
     },
   }
   const response = await axios.get(API_URL + id, config)
+  if (response.data) {
+    localStorage.setItem('event', JSON.stringify(response.data))
+  }
   return response.data
 }
 

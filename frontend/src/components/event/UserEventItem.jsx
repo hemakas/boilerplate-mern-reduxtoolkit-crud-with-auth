@@ -5,8 +5,9 @@ import { deleteEvent, updateEvent } from '../../features/event/eventSlice'
 import { reset } from '../../features/auth/authSlice'
 import moment from 'moment'
 import { FaTrash, FaEdit } from 'react-icons/fa'
+import { Link } from "react-router-dom"
 
-function UserEventItem({ userEvent }) {
+function UserEventItem({ userEvent, index }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -23,15 +24,15 @@ function UserEventItem({ userEvent }) {
       navigate('/login')
     }
 
-    return () => {
-      dispatch(reset())
-    }
+    // return () => {
+    //   dispatch(reset())
+    // }  
 
   }, [dispatch, navigate, isError, message, dispatch])
 
   return (
     <tr>
-      <td>{ }</td>
+      <td>{ ++index }</td>
       <td>{ userEvent.title }</td>
       <td>{ userEvent.description }</td>
       <td>{ moment(new Date(userEvent.start)).format('yyyy-MM-D') }</td>
@@ -39,7 +40,9 @@ function UserEventItem({ userEvent }) {
       <td>{ userEvent.googleId }</td>
       <td>
         {/* edit button */}
-        <button onClick={() => navigate(`/event/update/${userEvent._id}`)}><FaEdit /></button>
+        <Link to={`/event/update/${userEvent._id}`}>
+          <button><FaEdit /></button>
+        </Link>
 
         {/* delete button */}
         <button className='close' onClick={() => dispatch(deleteEvent(userEvent._id))}><FaTrash /></button>

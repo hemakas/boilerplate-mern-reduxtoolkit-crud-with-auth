@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Alert, Col, Row, Container, Button, Table } from 'react-bootstrap'
 import { getUserEvents, reset } from '../../features/event/eventSlice'
+import { toast } from 'react-toastify'
 
 import UserEventItem from '../../components/event/UserEventItem'
 import Spinner from '../../components/Spinner'
@@ -12,16 +13,13 @@ function IndexUser() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  // get athentic user 
   const { user } = useSelector((state) => state.auth)
-
-  // events by user id
   const { userEvents, isLoading, isError, message } = useSelector((state) => state.event)
 
   useEffect(() => {
     // log error messages
     if (isError) {
-      console.log(message)
+      toast.error(message)
     }
 
     // redirect if user not found
@@ -32,9 +30,9 @@ function IndexUser() {
     // get events by user id
     dispatch(getUserEvents(user._id))
 
-    return () => {
-      dispatch(reset())
-    }
+    // return () => {
+    //   dispatch(reset())
+    // }
 
   }, [user, navigate, isError, message, dispatch])
 
@@ -71,7 +69,7 @@ function IndexUser() {
             </thead>
             <tbody>
               {userEvents.map((userEvent, index) => (
-                <UserEventItem key={index} userEvent={userEvent} />
+                <UserEventItem key={index} index={index} userEvent={userEvent} />
               ))}
             </tbody>
           </Table>

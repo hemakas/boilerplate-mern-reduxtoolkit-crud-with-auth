@@ -19,26 +19,19 @@ export const Header = () => {
     <>
       <Navbar bg="primary" variant="dark" expand="lg">
         <Container>
-          
           <Navbar.Brand href="/">Calendar App</Navbar.Brand>
-          
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto justify-content-end">
-              
+          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+            <Nav>
             {user ? (
-                <>
-                  <Nav.Link href="/events"><FaCalendar /> Events</Nav.Link>
-
-                  <Nav.Link href="/events/userEvents"><FaUserClock /> User Events</Nav.Link>
-
-                  <Nav.Link href="/users"><FaCalendar /> Users</Nav.Link>
-                  
-                  <button className='btn' onClick={onLogout}>
-                    <FaSignOutAlt /> Logout
-                  </button>
-                </>
+              <>
+                <Nav.Link href="/events"><FaCalendar /> Events</Nav.Link>
+                <Nav.Link href="/events/userEvents"><FaUserClock /> User Events</Nav.Link>
+                <Nav.Link href="/users"><FaCalendar /> Users</Nav.Link>
+                <button className='btn' onClick={onLogout}>
+                  <FaSignOutAlt /> Logout
+                </button>
+              </>
             ) : (
               <>
 
@@ -46,7 +39,6 @@ export const Header = () => {
             )}
             </Nav>
           </Navbar.Collapse>
-
         </Container>
       </Navbar>
     </>

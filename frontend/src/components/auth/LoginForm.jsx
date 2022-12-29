@@ -68,7 +68,7 @@ function LoginForm() {
                 <Row className="mb-3">
                     <Form.Group>
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" name="email" id="email" vaue={email} onChange={onChange} required placeholder="john@example.com"/>
+                        <Form.Control type="email" name="email" id="email" vaue={email} onChange={onChange} required />
                     </Form.Group>
                 </Row>
 

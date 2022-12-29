@@ -32,9 +32,9 @@ function Index() {
     // get all events from eventSlice
     dispatch(getEvents())
 
-    return () => {
-      dispatch(reset())
-    }
+    // return () => {
+    //   dispatch(reset())
+    // }
 
   }, [user, navigate, isError, message, dispatch])
 
@@ -72,12 +72,12 @@ function Index() {
             </thead>
             <tbody>
               {events.map((event, index) => (
-                <EventItem key={index} event={event} />
+                <EventItem key={index} index={index} event={event} />
               ))}
             </tbody>
           </Table>
         ) : (
-          <h5>You have not set any events</h5>
+          <h5>You have not events</h5>
         )}
       </Container>      
     </>

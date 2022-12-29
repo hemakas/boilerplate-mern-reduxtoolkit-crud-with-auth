@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import eventService from './eventService'
 
+// Get event from localStorage
+const event = JSON.parse(localStorage.getItem('surveventeyee'))
+
 const initialState = {
-  event: {},
+  event: event ? event : null,
   events: [],
   userEvents: [],
   isError: false,

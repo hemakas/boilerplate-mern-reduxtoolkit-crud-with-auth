@@ -13,7 +13,7 @@ function Login() {
         <Row>
           <Col></Col> 
           
-          <Col xs={6}>
+          <Col xs={4}>
             <Card>
               <Card.Body>
                 <LoginForm />

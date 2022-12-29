@@ -1,14 +1,13 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import { deleteEvent } from '../../features/event/eventSlice'
 import { getUserById, reset } from '../../features/auth/authSlice'
 import Spinner from '../../components/Spinner'
 import { FaTrash, FaEdit } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 function EventItem({ event, index }) {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   // fetch users from authSlice state > users array
@@ -23,9 +22,9 @@ function EventItem({ event, index }) {
     // get users by id
     dispatch(getUserById(event.userId))
 
-    return () => {
-      dispatch(reset())
-    }
+    // return () => {
+    //   dispatch(reset())
+    // }
 
   }, [dispatch, isError])
 
@@ -35,7 +34,7 @@ function EventItem({ event, index }) {
 
   return (
     <tr>
-      <td>{  }</td>
+      <td>{ ++index }</td>
       <td>{ event.title }</td>
       <td>{ event.description }</td>
       <td>{ moment(new Date(event.start)).format('yyyy-MM-D') }</td>
@@ -44,8 +43,10 @@ function EventItem({ event, index }) {
       <td>{ event.googleId }</td>
       <td>
         {/* edit button */}
-        <button onClick={() => navigate(`/event/update/${event._id}`)}><FaEdit /></button>
-        
+        <Link to={`/event/update/${event._id}`}>
+          <button><FaEdit /></button>
+        </Link>
+
         {/* delete button */}
         <button className='close' onClick={() => dispatch(deleteEvent(event._id))}><FaTrash /></button>
       </td>
